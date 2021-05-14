@@ -46,8 +46,9 @@ static void snd_update(vecx *vecx)
 	}
 }
 
-static uint8_t read8_port_a(vecx *vecx)
+static uint8_t read8_port_a(void *avecx)
 {
+	::vecx* vecx = (::vecx*)(avecx); 
 	if ((vecx->VIA.orb & 0x18) == 0x08)
 	{
 		/* the snd chip is driving port a */
@@ -59,8 +60,9 @@ static uint8_t read8_port_a(vecx *vecx)
 	}
 }
 
-static uint8_t read8_port_b(vecx *vecx)
+static uint8_t read8_port_b(void *avecx)
 {
+	::vecx* vecx = (::vecx*)(avecx);
 	/* compare signal is an input so the value does not come from
 	* VIA.orb.
 	*/
@@ -76,8 +78,10 @@ static uint8_t read8_port_b(vecx *vecx)
 	}
 }
 
-static void write8_port_a(vecx *vecx, uint8_t data)
+static void write8_port_a(void *avecx, uint8_t data)
 {
+
+	::vecx* vecx = (::vecx*)(avecx);
 	snd_update(vecx);
 
 	/* output of port a feeds directly into the dac which then
@@ -87,15 +91,18 @@ static void write8_port_a(vecx *vecx, uint8_t data)
 	dac_update(&vecx->DAC);
 }
 
-static void write8_port_b(vecx *vecx, uint8_t data)
+static void write8_port_b(void *avecx, uint8_t data)
 {
+
+	::vecx* vecx = (::vecx*)(avecx);
 	(void)data;
 	snd_update(vecx);
 	dac_update(&vecx->DAC);
 }
 
-static uint8_t read8(vecx *vecx, uint16_t address)
+static uint8_t read8(void *avecx, uint16_t address)
 {
+	::vecx* vecx = (::vecx*)(avecx);
 	uint8_t data = 0xff;
 
 	if ((address & 0xe000) == 0xe000)
@@ -125,8 +132,9 @@ static uint8_t read8(vecx *vecx, uint16_t address)
 	return data;
 }
 
-static void write8(vecx *vecx, uint16_t address, uint8_t data)
+static void write8(void *avecx, uint16_t address, uint8_t data)
 {
+	::vecx* vecx = (::vecx*)(avecx);
 	if ((address & 0xe000) == 0xe000)
 	{
 		/* rom */
@@ -151,8 +159,9 @@ static void write8(vecx *vecx, uint16_t address, uint8_t data)
 	}
 }
 
-static void addline(vecx *vecx, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint8_t color)
+static void addline(void *avecx, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint8_t color)
 {
+	::vecx* vecx = (::vecx*)(avecx);
     vecx->vectors[vecx->vector_draw_cnt].x0 = x0;
     vecx->vectors[vecx->vector_draw_cnt].y0 = y0;
     vecx->vectors[vecx->vector_draw_cnt].x1 = x1;

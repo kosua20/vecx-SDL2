@@ -447,6 +447,7 @@ static void e8910_callback(void *userdata, uint8_t *stream, int length)
 
 		vol = ((vol_a * PSG->vol_a + vol_b * PSG->vol_b + vol_c * PSG->vol_c) / (3 * STEP)) >> 6;
 		vol = ((last_vol + (128 + vol)) / (1 + 1));
+		
 		if (--length & 1) *(buf1++) = vol;
 		last_vol = vol;
 	}
@@ -459,6 +460,12 @@ void e8910_reset(AY8910 *PSG)
 
 	/* input buttons */
 	e8910_write(PSG, 14, 0xff);
+}
+
+void e8910_mute(AY8910 *PSG, char mute)
+{
+	(void)PSG;
+	SDL_PauseAudio(mute ? 1 : 0);
 }
 
 void e8910_init(AY8910 *PSG)
@@ -487,14 +494,17 @@ void e8910_init(AY8910 *PSG)
 		exit(-1);
 	}
 
-    printf("REQ: freg: %d, format: %x, channels: %d, samples: %d\n", reqSpec.freq, reqSpec.format, reqSpec.channels, reqSpec.samples);
-    printf("GIV: freg: %d, format: %x, channels: %d, samples: %d\n", givenSpec.freq, givenSpec.format, givenSpec.channels, givenSpec.samples);
-
+	char verbose = 0;
+	if(verbose){
+    	printf("REQ: freg: %d, format: %x, channels: %d, samples: %d\n", reqSpec.freq, reqSpec.format, reqSpec.channels, reqSpec.samples);
+    	printf("GIV: freg: %d, format: %x, channels: %d, samples: %d\n", givenSpec.freq, givenSpec.format, givenSpec.channels, givenSpec.samples);
+	}
 	// Start playing audio
 	SDL_PauseAudio(0);
 }
 
 void e8910_done(AY8910 *PSG)
 {
+	(void)PSG;
 	SDL_CloseAudio();
 }

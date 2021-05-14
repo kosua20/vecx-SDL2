@@ -2,11 +2,11 @@
 #include <stdio.h>
 
 #include "ser.h"
-#include "emu\e6522.h"
-#include "emu\e6809.h"
-#include "emu\e8910.h"
-#include "emu\edac.h"
-#include "emu\vecx.h"
+#include "emu/e6522.h"
+#include "emu/e6809.h"
+#include "emu/e8910.h"
+#include "emu/edac.h"
+#include "emu/vecx.h"
 
 static void e6809_load(M6809 *CPU, FILE *file)
 {
