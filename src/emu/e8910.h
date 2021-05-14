@@ -12,10 +12,10 @@ typedef struct
 	int8_t cnt_env;
 	uint8_t hold, alternate, attack, holding;
 	int32_t RNG;
-
 } AY8910;
 
 void e8910_reset(AY8910 *PSG);
+void e8910_mute(AY8910 *PSG, char mute);
 void e8910_init(AY8910 *PSG);
 void e8910_done(AY8910 *PSG);
 uint8_t e8910_read(AY8910 *PSG, uint8_t r);

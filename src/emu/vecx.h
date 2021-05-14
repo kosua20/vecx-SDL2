@@ -6,9 +6,16 @@
 #include "e8910.h"
 #include "edac.h"
 
+//#define BOOST_FREQ
+#ifdef BOOST_FREQ
+	#define FRAME_MULT 5
+#else
+	#define FRAME_MULT 1
+#endif
+
 enum
 {
-	VECTREX_MHZ = 1500000, /* speed of the vectrex being emulated */
+	VECTREX_MHZ = 1500000 * FRAME_MULT, /* speed of the vectrex being emulated */
 	VECTREX_COLORS = 128,     /* number of possible colors ... grayscale */
 
     VECTREX_PDECAY = 30,      /* phosphor decay rate */
